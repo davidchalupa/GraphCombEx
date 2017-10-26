@@ -3140,7 +3140,7 @@ void MainWindow::showOptionsVisualization()
 
 void MainWindow::showAboutWindow()
 {
-    QMessageBox::about(this, "About", "Graph Combinatorial Explorer, version 0.3 DEV \n\n(c) David Chalupa, 2011-2016");
+    QMessageBox::about(this, "About", "Graph Combinatorial Explorer, version 1.0 \n\n(c) David Chalupa, 2011-2017");
 }
 
 void MainWindow::logMessage(QString msg)
