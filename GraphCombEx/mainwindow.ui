@@ -1,0 +1,1093 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1107</width>
+    <height>684</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Graph Combinatorial Explorer 0.3 DEV</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Graph name</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_graphname">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>20</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Vertices</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_vertices">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>40</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_edges">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>60</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Edges</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Density</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_density">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>80</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Degree</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>120</y>
+      <width>51</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>min</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_mindeg">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>120</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>140</y>
+      <width>51</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>max</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_maxdeg">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>140</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_avgdeg">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>160</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_15">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>160</y>
+      <width>51</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>average</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_stdevdeg">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>180</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_17">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>180</y>
+      <width>51</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>stdev</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>20</y>
+      <width>331</width>
+      <height>621</height>
+     </rect>
+    </property>
+    <property name="html">
+     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="graphicsView_graphdrawing">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>230</y>
+      <width>410</width>
+      <height>410</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="graphicsView_adjacencymatrix">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>20</y>
+      <width>300</width>
+      <height>300</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_18">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>20</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Triangles</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_triangles">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>20</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_20">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>100</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Max clique</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_maxclique">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>100</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_22">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>120</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Chromatic number</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_chromatic">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>120</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_24">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>140</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Independent set</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_indset">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>140</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_cliquecover">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>160</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_27">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>160</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Clique covering</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_domset">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>180</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_29">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>180</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Dominating set</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="graphicsView_degreedistr">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>340</y>
+      <width>300</width>
+      <height>300</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_19">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>0</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Adjacency matrix</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_21">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>320</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Degree distribution</string>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="progressBar">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>290</y>
+      <width>431</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>0</number>
+    </property>
+    <property name="maximum">
+     <number>0</number>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_loading">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>270</y>
+      <width>131</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Processing, please wait...</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_23">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>80</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Diameter</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_diameter">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>80</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_25">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Components</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_components">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>100</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_26">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>60</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Girth</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_girth">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>60</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_30">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>200</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Longest cycle</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_longest_cycle">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>200</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_28">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>40</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mean clustering coeff</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_mean_clustering_coefficient">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>40</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1107</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuGraph_Explorer_0_2">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="menuVisualization_type">
+     <property name="title">
+      <string>Visualization type</string>
+     </property>
+     <addaction name="actionCentrality_based"/>
+     <addaction name="actionMesh_based"/>
+     <addaction name="actionTree_based"/>
+     <addaction name="actionCircular"/>
+     <addaction name="separator"/>
+     <addaction name="actionCycle_based"/>
+     <addaction name="actionDominance_based"/>
+    </widget>
+    <widget class="QMenu" name="menuVisualization_scale">
+     <property name="title">
+      <string>Visualization scale</string>
+     </property>
+     <addaction name="action1x"/>
+     <addaction name="action2x"/>
+     <addaction name="action5x"/>
+     <addaction name="action25x"/>
+    </widget>
+    <widget class="QMenu" name="menuExport">
+     <property name="title">
+      <string>Export</string>
+     </property>
+     <addaction name="actionGraph_visualization"/>
+     <addaction name="actionAdjacency_matrix_visualization"/>
+     <addaction name="actionDegree_distribution"/>
+    </widget>
+    <widget class="QMenu" name="menuGenerate">
+     <property name="title">
+      <string>Generate</string>
+     </property>
+     <addaction name="actionComplete_n_ary_tree"/>
+     <addaction name="actionUnit_disk_graph"/>
+     <addaction name="actionRegular_grid_with_rewiring"/>
+     <addaction name="actionScale_free_network"/>
+     <addaction name="actionWatts_Strogatz_network"/>
+     <addaction name="separator"/>
+     <addaction name="actionComplementary_graph"/>
+     <addaction name="actionGraph_with_pruned_leaves"/>
+     <addaction name="actionLargest_component"/>
+     <addaction name="actionGeneralized_dominating_set_graph"/>
+    </widget>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+    <addaction name="menuGenerate"/>
+    <addaction name="menuVisualization_type"/>
+    <addaction name="menuVisualization_scale"/>
+    <addaction name="menuExport"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <widget class="QMenu" name="menuCompute">
+    <property name="title">
+     <string>Compute</string>
+    </property>
+    <widget class="QMenu" name="menuMaximum_clique">
+     <property name="title">
+      <string>Maximum clique</string>
+     </property>
+     <addaction name="actionGreedy_clique"/>
+     <addaction name="actionRandomized_local_search_and_Iterated_Greedy"/>
+    </widget>
+    <widget class="QMenu" name="menuColouring">
+     <property name="title">
+      <string>Colouring</string>
+     </property>
+     <addaction name="actionBrelaz_s_heuristic"/>
+     <addaction name="actionIterated_greedy_and_randomized_local_search"/>
+    </widget>
+    <widget class="QMenu" name="menuMaximum_independent_set">
+     <property name="title">
+      <string>Maximum independent set</string>
+     </property>
+     <addaction name="actionGreedy_independent_set"/>
+     <addaction name="actionRandomized_local_search_and_iterated_greedy_indset"/>
+    </widget>
+    <widget class="QMenu" name="menuClique_covering">
+     <property name="title">
+      <string>Clique covering</string>
+     </property>
+     <addaction name="actionIterated_greedy_and_randomized_local_search_ccp"/>
+    </widget>
+    <widget class="QMenu" name="menuDominating_set">
+     <property name="title">
+      <string>Dominating set</string>
+     </property>
+     <addaction name="actionGreedy_dominating_set"/>
+    </widget>
+    <widget class="QMenu" name="menuLongest_cycle">
+     <property name="title">
+      <string>Longest cycle</string>
+     </property>
+     <addaction name="actionDepth_first_search"/>
+     <addaction name="actionDepth_first_search_with_local_search"/>
+    </widget>
+    <addaction name="actionTriangles"/>
+    <addaction name="actionGirth"/>
+    <addaction name="actionDiameter"/>
+    <addaction name="menuMaximum_clique"/>
+    <addaction name="menuColouring"/>
+    <addaction name="menuMaximum_independent_set"/>
+    <addaction name="menuClique_covering"/>
+    <addaction name="menuDominating_set"/>
+    <addaction name="menuLongest_cycle"/>
+   </widget>
+   <widget class="QMenu" name="menuVisualize">
+    <property name="title">
+     <string>Visualize</string>
+    </property>
+    <addaction name="actionShow_in_a_separate_window"/>
+    <addaction name="actionMinimize_crossings"/>
+   </widget>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <addaction name="actionAlgorithms"/>
+    <addaction name="actionVisualization"/>
+   </widget>
+   <addaction name="menuGraph_Explorer_0_2"/>
+   <addaction name="menuCompute"/>
+   <addaction name="menuVisualize"/>
+   <addaction name="menuOptions"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionMesh_based">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Grid-based</string>
+   </property>
+  </action>
+  <action name="actionCentrality_based">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Centrality-based</string>
+   </property>
+  </action>
+  <action name="action1x">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>1x</string>
+   </property>
+  </action>
+  <action name="action25x">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>25x</string>
+   </property>
+  </action>
+  <action name="action5x">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>5x</string>
+   </property>
+  </action>
+  <action name="actionGraph_visualization">
+   <property name="text">
+    <string>Graph visualization</string>
+   </property>
+  </action>
+  <action name="actionUnit_disk_graph">
+   <property name="text">
+    <string>Unit disk graph</string>
+   </property>
+  </action>
+  <action name="actionScale_free_network">
+   <property name="text">
+    <string>Scale-free network</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionTriangles">
+   <property name="text">
+    <string>Triangles</string>
+   </property>
+  </action>
+  <action name="actionDiameter">
+   <property name="text">
+    <string>Diameter</string>
+   </property>
+  </action>
+  <action name="actionMax_clique">
+   <property name="text">
+    <string>Max clique</string>
+   </property>
+  </action>
+  <action name="actionColouring">
+   <property name="text">
+    <string>Colouring</string>
+   </property>
+  </action>
+  <action name="actionIndependent_set">
+   <property name="text">
+    <string>Independent set</string>
+   </property>
+  </action>
+  <action name="actionClique_covering">
+   <property name="text">
+    <string>Clique covering</string>
+   </property>
+  </action>
+  <action name="actionDominating_set">
+   <property name="text">
+    <string>Dominating set</string>
+   </property>
+  </action>
+  <action name="actionGreedy_clique">
+   <property name="text">
+    <string>Greedy clique</string>
+   </property>
+  </action>
+  <action name="actionRandomized_local_search_and_Iterated_Greedy">
+   <property name="text">
+    <string>Randomized local search and iterated greedy</string>
+   </property>
+  </action>
+  <action name="actionBrelaz_s_heuristic">
+   <property name="text">
+    <string>Brelaz's heuristic</string>
+   </property>
+  </action>
+  <action name="actionIterated_greedy_and_randomized_local_search">
+   <property name="text">
+    <string>Iterated greedy and randomized local search</string>
+   </property>
+  </action>
+  <action name="actionGreedy_independent_set">
+   <property name="text">
+    <string>Greedy independent set</string>
+   </property>
+  </action>
+  <action name="actionRandomized_local_search_and_iterated_greedy_indset">
+   <property name="text">
+    <string>Randomized local search and iterated greedy</string>
+   </property>
+  </action>
+  <action name="actionBrelaz_s_heuristic_ccp">
+   <property name="text">
+    <string>Brelaz's heuristic</string>
+   </property>
+  </action>
+  <action name="actionIterated_greedy_and_randomized_local_search_ccp">
+   <property name="text">
+    <string>Iterated greedy and randomized local search</string>
+   </property>
+  </action>
+  <action name="actionGreedy_dominating_set">
+   <property name="text">
+    <string>Greedy dominating set</string>
+   </property>
+  </action>
+  <action name="actionComplete_n_ary_tree">
+   <property name="text">
+    <string>Complete n-ary tree</string>
+   </property>
+  </action>
+  <action name="action2x">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>2x</string>
+   </property>
+  </action>
+  <action name="actionGeneralized_dominating_set_graph">
+   <property name="text">
+    <string>Generalized dominating set graph</string>
+   </property>
+  </action>
+  <action name="actionComplementary_graph">
+   <property name="text">
+    <string>Complementary graph</string>
+   </property>
+  </action>
+  <action name="actionGirth">
+   <property name="text">
+    <string>Girth</string>
+   </property>
+  </action>
+  <action name="actionWatts_Strogatz_network">
+   <property name="text">
+    <string>Watts-Strogatz network</string>
+   </property>
+  </action>
+  <action name="actionCircular">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Circular</string>
+   </property>
+  </action>
+  <action name="actionDominance_based">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Dominance-based</string>
+   </property>
+  </action>
+  <action name="actionClique_cover_based">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Clique covering-based</string>
+   </property>
+  </action>
+  <action name="actionShow_in_a_separate_window">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show in a separate window</string>
+   </property>
+  </action>
+  <action name="actionDepth_first_search">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Depth-first search</string>
+   </property>
+  </action>
+  <action name="actionAlgorithms">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Algorithms</string>
+   </property>
+  </action>
+  <action name="actionVisualization">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Visualization</string>
+   </property>
+  </action>
+  <action name="actionMinimize_crossings">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Minimize crossings</string>
+   </property>
+  </action>
+  <action name="actionCycle_based">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Cycle-based</string>
+   </property>
+  </action>
+  <action name="actionAdjacency_matrix_visualization">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Adjacency matrix visualization</string>
+   </property>
+  </action>
+  <action name="actionDegree_distribution">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Degree distribution</string>
+   </property>
+  </action>
+  <action name="actionDepth_first_search_with_local_search">
+   <property name="text">
+    <string>Depth-first search with local search</string>
+   </property>
+  </action>
+  <action name="actionRegular_grid_with_rewiring">
+   <property name="text">
+    <string>Regular grid with rewiring</string>
+   </property>
+  </action>
+  <action name="actionGraph_with_pruned_leaves">
+   <property name="text">
+    <string>Graph with pruned leaves</string>
+   </property>
+  </action>
+  <action name="actionLargest_component">
+   <property name="text">
+    <string>Largest component</string>
+   </property>
+  </action>
+  <action name="actionTree_based">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Tree-based</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
