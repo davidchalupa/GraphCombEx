@@ -342,6 +342,8 @@ void generate_graph_BA_model(unsigned long w, unsigned long n_max)
             // ToDo: overflow handling!
         }
     }
+
+    G->density = ((double)(G->m))/((double)(G->n*(G->n-1)/2));
 }
 
 void generate_graph_UDG(unsigned long n_max, unsigned long range, unsigned long grid)
@@ -413,6 +415,8 @@ void generate_graph_UDG(unsigned long n_max, unsigned long range, unsigned long 
     {
         QuickSort(G->V[i].sibl,0,G->V[i].edgecount-1);
     }
+
+    G->density = ((double)(G->m))/((double)(G->n*(G->n-1)/2));
 
     delete[](points_x);
     delete[](points_y);
@@ -529,6 +533,8 @@ void generate_graph_WS_model(refer n_max, refer k_half, double beta)
             // ToDo: overflow handling!
         }
     }
+
+    G->density = ((double)(G->m))/((double)(G->n*(G->n-1)/2));
 }
 
 
@@ -649,6 +655,8 @@ void generate_graph_grid(refer rows, refer columns, double beta)
             // ToDo: overflow handling!
         }
     }
+
+    G->density = ((double)(G->m))/((double)(G->n*(G->n-1)/2));
 }
 
 void generate_graph_complete_tree(refer branching_factor, refer depth)
@@ -705,6 +713,8 @@ void generate_graph_complete_tree(refer branching_factor, refer depth)
     {
         QuickSort(G->V[i].sibl,0,G->V[i].edgecount-1);
     }
+
+    G->density = ((double)(G->m))/((double)(G->n*(G->n-1)/2));
 
     delete[](parents);
 }
