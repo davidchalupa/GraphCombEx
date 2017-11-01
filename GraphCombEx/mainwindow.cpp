@@ -80,8 +80,6 @@ MainWindow::MainWindow(QWidget *parent) :
     show_diameter = false;
     show_longest_cycle = false;
 
-    pixmap_adjacency_matrix = NULL;
-
     CommonSettings::label_font_size = VISUALIZATION_POINT * 3 / 2;
     CommonSettings::vertex_radius = VISUALIZATION_POINT;
 
@@ -527,11 +525,6 @@ void MainWindow::update_adjacency_matrix()
     }
 
     painter->end();
-
-    if (NULL != pixmap_adjacency_matrix)
-    {
-        delete(pixmap_adjacency_matrix);
-    }
 
     pixmap_adjacency_matrix = pixmap;
     adjacency_matrix_visible = true;
@@ -1445,7 +1438,10 @@ void MainWindow::finishGraphLoading()
 
     // adjacency matrix
     QGraphicsPixmapItem *pixmapItemAM = new QGraphicsPixmapItem();
-    pixmapItemAM->setPixmap(*pixmap_adjacency_matrix);
+    if (NULL != pixmap_adjacency_matrix)
+    {
+        pixmapItemAM->setPixmap(*pixmap_adjacency_matrix);
+    }
     QGraphicsScene *scene_adjacency_matrix;
     if (adjacency_matrix_visible)
     {
