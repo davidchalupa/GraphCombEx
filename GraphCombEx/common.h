@@ -28,6 +28,8 @@ public:
     static refer runs_dfs;
     static refer runs_dfs_ls;
     static long long crossing_minimization_time_limit;
+    static int label_font_size;
+    static int vertex_radius;
 };
 
 void QuickSort(refer *array, int left, int right);

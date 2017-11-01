@@ -12,6 +12,8 @@ refer CommonSettings::runs_greedy_independent_set = 1;
 refer CommonSettings::runs_rls_ig_clique = 1;
 refer CommonSettings::runs_rls_ig_independent_set = 1;
 long long CommonSettings::crossing_minimization_time_limit = 60 * 1000;
+int CommonSettings::label_font_size = 4;
+int CommonSettings::vertex_radius = 3;
 
 void swap(refer *a, refer *b)
 {

@@ -35,14 +35,16 @@
 
 #include "problem_ccp.h"
 
+#define VISUALIZATION_DOUBLE_SCALE 2
+#define VISUALIZATION_MEDIUM_SCALE 5
+#define VISUALIZATION_LARGE_SCALE 25
+
 #define VISUALIZATION_SIZE 400
-#define VISUALIZATION_SIZE_DOUBLE 800
-#define VISUALIZATION_SIZE_MEDIUM 2000
-#define VISUALIZATION_SIZE_LARGE 10000
-#define VISUALIZATION_POINT 3 // ToDo: implement variable sizes
-#define VISUALIZATION_POINT_DOUBLE 6
-#define VISUALIZATION_POINT_MEDIUM 15
-#define VISUALIZATION_POINT_LARGE 75
+#define VISUALIZATION_SIZE_DOUBLE VISUALIZATION_SIZE * VISUALIZATION_DOUBLE_SCALE
+#define VISUALIZATION_SIZE_MEDIUM VISUALIZATION_SIZE * VISUALIZATION_MEDIUM_SCALE
+#define VISUALIZATION_SIZE_LARGE VISUALIZATION_SIZE * VISUALIZATION_LARGE_SCALE
+
+#define VISUALIZATION_POINT 3
 
 #define VISUALIZATION_MARGIN 70
 
@@ -77,6 +79,9 @@ MainWindow::MainWindow(QWidget *parent) :
     show_girth = false;
     show_diameter = false;
     show_longest_cycle = false;
+
+    CommonSettings::label_font_size = VISUALIZATION_POINT * 3 / 2;
+    CommonSettings::vertex_radius = VISUALIZATION_POINT;
 
     srand((unsigned long long) time(NULL));
 
@@ -1344,38 +1349,38 @@ void MainWindow::update_graph_visualization()
         }
         if (ui->action1x->isChecked())
         {
-            painter->drawEllipse(myx[v]-VISUALIZATION_POINT,myy[v]-VISUALIZATION_POINT,VISUALIZATION_POINT*2,VISUALIZATION_POINT*2);
+            painter->drawEllipse(myx[v]-CommonSettings::vertex_radius,myy[v]-CommonSettings::vertex_radius,CommonSettings::vertex_radius*2,CommonSettings::vertex_radius*2);
         }
         else if (ui->action2x->isChecked())
         {
-            painter->drawEllipse(myx[v]-VISUALIZATION_POINT_DOUBLE,myy[v]-VISUALIZATION_POINT_DOUBLE,VISUALIZATION_POINT_DOUBLE*2,VISUALIZATION_POINT_DOUBLE*2);
+            painter->drawEllipse(myx[v]-CommonSettings::vertex_radius * VISUALIZATION_DOUBLE_SCALE,myy[v]-CommonSettings::vertex_radius * VISUALIZATION_DOUBLE_SCALE,CommonSettings::vertex_radius * VISUALIZATION_DOUBLE_SCALE*2,CommonSettings::vertex_radius * VISUALIZATION_DOUBLE_SCALE*2);
         }
         else if (ui->action5x->isChecked())
         {
-            painter->drawEllipse(myx[v]-VISUALIZATION_POINT_MEDIUM,myy[v]-VISUALIZATION_POINT_MEDIUM,VISUALIZATION_POINT_MEDIUM*2,VISUALIZATION_POINT_MEDIUM*2);
+            painter->drawEllipse(myx[v]-CommonSettings::vertex_radius * VISUALIZATION_MEDIUM_SCALE,myy[v]-CommonSettings::vertex_radius * VISUALIZATION_MEDIUM_SCALE,CommonSettings::vertex_radius * VISUALIZATION_MEDIUM_SCALE*2,CommonSettings::vertex_radius * VISUALIZATION_MEDIUM_SCALE*2);
         }
         else
         {
-            painter->drawEllipse(myx[v]-VISUALIZATION_POINT_LARGE,myy[v]-VISUALIZATION_POINT_LARGE,VISUALIZATION_POINT_LARGE*2,VISUALIZATION_POINT_LARGE*2);
+            painter->drawEllipse(myx[v]-CommonSettings::vertex_radius * VISUALIZATION_LARGE_SCALE,myy[v]-CommonSettings::vertex_radius * VISUALIZATION_LARGE_SCALE,CommonSettings::vertex_radius * VISUALIZATION_LARGE_SCALE*2,CommonSettings::vertex_radius * VISUALIZATION_LARGE_SCALE*2);
         }
     }
 
     QFont qFont = painter->font();
     if (ui->action1x->isChecked())
     {
-        qFont.setPointSize(VISUALIZATION_POINT * 3 / 2);
+        qFont.setPointSize(CommonSettings::label_font_size);
     }
     else if (ui->action2x->isChecked())
     {
-        qFont.setPointSize(VISUALIZATION_POINT_DOUBLE * 3 / 2);
+        qFont.setPointSize(CommonSettings::label_font_size * CommonSettings::vertex_radius * VISUALIZATION_DOUBLE_SCALE / CommonSettings::vertex_radius);
     }
     else if (ui->action5x->isChecked())
     {
-        qFont.setPointSize(VISUALIZATION_POINT_MEDIUM * 3 / 2);
+        qFont.setPointSize(CommonSettings::label_font_size * CommonSettings::vertex_radius * VISUALIZATION_MEDIUM_SCALE / CommonSettings::vertex_radius);
     }
     else
     {
-        qFont.setPointSize(VISUALIZATION_POINT_LARGE * 3 / 2);
+        qFont.setPointSize(CommonSettings::label_font_size * CommonSettings::vertex_radius * VISUALIZATION_LARGE_SCALE / CommonSettings::vertex_radius);
     }
     painter->setFont(qFont);
     for (v=0;v<G->n;v++)
@@ -1385,14 +1390,14 @@ void MainWindow::update_graph_visualization()
         {
             if (G->n < 1000)
             {
-                painter->drawText(QPoint(myx[v] - VISUALIZATION_POINT * 2,myy[v] - VISUALIZATION_POINT * 2),get_vertex_label(v));
+                painter->drawText(QPoint(myx[v] - CommonSettings::vertex_radius * 2,myy[v] - CommonSettings::vertex_radius * 2),get_vertex_label(v));
             }
         }
         else
         {
             if (G->n < 1000)
             {
-                painter->drawText(QPoint(myx[v] - VISUALIZATION_POINT * 2,myy[v] - VISUALIZATION_POINT * 2),QString::number(v+1));
+                painter->drawText(QPoint(myx[v] - CommonSettings::vertex_radius * 2,myy[v] - CommonSettings::vertex_radius * 2),QString::number(v+1));
             }
         }
     }
@@ -3136,6 +3141,14 @@ void MainWindow::showOptionsVisualization()
     DialogOptionsVisualization dialog_options_visualization(this);
     dialog_options_visualization.setModal(true);
     dialog_options_visualization.exec();
+
+    ui->progressBar->show();
+    ui->label_loading->show();
+    ui->progressBar->repaint();
+    ui->label_loading->repaint();
+
+    QFuture<void> future = QtConcurrent::run(this, &MainWindow::updateVisualizationProcessing);
+    this->FutureWatcherVisualizationUpdate.setFuture(future);
 }
 
 void MainWindow::showAboutWindow()
