@@ -320,7 +320,7 @@ void generate_graph_BA_model(unsigned long w, unsigned long n_max)
                     q++;
                 }
             }
-            while (are_adjacent_full_scan(i,q) || are_adjacent_full_scan(q,i));
+            while (are_adjacent(i,q) || are_adjacent(q,i));
             G->V[i].sibl[j] = q;
             if (0 == G->V[q].edgecount % MAX_BA_DEGREE)
             {
@@ -328,20 +328,22 @@ void generate_graph_BA_model(unsigned long w, unsigned long n_max)
             }
             G->V[q].sibl[G->V[q].edgecount] = i;
             G->V[q].edgecount++;
+            QuickSort(G->V[q].sibl,0,G->V[q].edgecount-1);
         }
         G->n++;
         G->m += w;
         G->V[i].edgecount = w;
+        QuickSort(G->V[i].sibl,0,G->V[i].edgecount-1);
     }
 
-    for (i=0;i<G->n;i++)
+    /*for (i=0;i<G->n;i++)
     {
         QuickSort(G->V[i].sibl,0,G->V[i].edgecount-1);
         if (G->V[i].edgecount > MAX_BA_DEGREE)
         {
             // ToDo: overflow handling!
         }
-    }
+    }*/
 
     G->density = ((double)(G->m))/((double)(G->n*(G->n-1)/2));
 }
