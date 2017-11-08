@@ -10,6 +10,11 @@
     <height>175</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <kerning>false</kerning>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
