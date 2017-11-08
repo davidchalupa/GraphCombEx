@@ -150,6 +150,35 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(workerThreadIGRLSCliqueCovering,SIGNAL(finished()),this,SLOT(finishWorkerThreadCliqueCovering()));
     connect(workerThreadIGRLSColoring,SIGNAL(logMessageSignal(QString)),this,SLOT(logMessage(QString)));
     connect(workerThreadIGRLSColoring,SIGNAL(finished()),this,SLOT(finishWorkerThreadColoring()));
+
+    clear_graph_visualization();
+    clear_adjacency_matrix();
+    clear_degree_distribution();
+
+    refer current_visualization_size;
+    current_visualization_size = VISUALIZATION_SIZE;
+    QGraphicsPixmapItem *pixmapItemGV = new QGraphicsPixmapItem();
+    pixmapItemGV->setPixmap(*pixmap_graph_visualization);
+    QGraphicsScene *scene_graph_visualization = new QGraphicsScene(0,0,current_visualization_size,current_visualization_size);
+    scene_graph_visualization->addItem(pixmapItemGV);
+    ui->graphicsView_graphdrawing->setScene(scene_graph_visualization);
+
+    // adjacency matrix
+    QGraphicsPixmapItem *pixmapItemAM = new QGraphicsPixmapItem();
+    pixmapItemAM->setPixmap(*pixmap_adjacency_matrix);
+    QGraphicsScene *scene_adjacency_matrix;
+    scene_adjacency_matrix = new QGraphicsScene(0,0,300,300);
+    scene_adjacency_matrix->addItem(pixmapItemAM);
+    ui->graphicsView_adjacencymatrix->setScene(scene_adjacency_matrix);
+    ui->graphicsView_adjacencymatrix->fitInView(QRectF(0,0,25,25), Qt::KeepAspectRatio);
+
+    // degree distribution
+    QGraphicsPixmapItem *pixmapItemDD = new QGraphicsPixmapItem();
+    pixmapItemDD->setPixmap(*pixmap_degree_distribution);
+    QGraphicsScene *scene_degree_distribution = new QGraphicsScene(0,0,degree_distrib_size,degree_distrib_size);
+    scene_degree_distribution->addItem(pixmapItemDD);
+    ui->graphicsView_degreedistr->setScene(scene_degree_distribution);
+    ui->graphicsView_degreedistr->fitInView(QRectF(0,0,25,25), Qt::KeepAspectRatio);
 }
 
 void MainWindow::exitApp()
@@ -676,7 +705,7 @@ void MainWindow::update_graph_visualization()
                 painter->drawLine(myx[v],myy[v],myx[G->V[v].sibl[j]],myy[G->V[v].sibl[j]]);
             }
         }
-        if (NULL != current_longest_cycle_vertices)
+        if (NULL != current_longest_cycle_vertices && CommonSettings::highlight_longest_cycle)
         {
             for (j=0;j<longest_cycle_lower;j++)
             {
@@ -829,7 +858,7 @@ void MainWindow::update_graph_visualization()
                 painter->drawLine(myx[v],myy[v],myx[G->V[v].sibl[j]],myy[G->V[v].sibl[j]]);
             }
         }
-        if (NULL != current_longest_cycle_vertices)
+        if (NULL != current_longest_cycle_vertices && CommonSettings::highlight_longest_cycle)
         {
             for (j=0;j<longest_cycle_lower;j++)
             {
@@ -996,7 +1025,7 @@ void MainWindow::update_graph_visualization()
                 painter->drawLine(myx[v],myy[v],myx[G->V[v].sibl[j]],myy[G->V[v].sibl[j]]);
             }
         }
-        if (NULL != current_longest_cycle_vertices)
+        if (NULL != current_longest_cycle_vertices && CommonSettings::highlight_longest_cycle)
         {
             for (j=0;j<longest_cycle_lower;j++)
             {
@@ -1043,7 +1072,7 @@ void MainWindow::update_graph_visualization()
                 painter->drawLine(myx[v],myy[v],myx[G->V[v].sibl[j]],myy[G->V[v].sibl[j]]);
             }
         }
-        if (NULL != current_longest_cycle_vertices)
+        if (NULL != current_longest_cycle_vertices && CommonSettings::highlight_longest_cycle)
         {
             for (j=0;j<longest_cycle_lower;j++)
             {
@@ -1249,7 +1278,7 @@ void MainWindow::update_graph_visualization()
                 painter->drawLine(myx[v],myy[v],myx[G->V[v].sibl[j]],myy[G->V[v].sibl[j]]);
             }
         }
-        if (NULL != current_longest_cycle_vertices)
+        if (NULL != current_longest_cycle_vertices && CommonSettings::highlight_longest_cycle)
         {
             for (j=0;j<longest_cycle_lower;j++)
             {
@@ -1273,7 +1302,7 @@ void MainWindow::update_graph_visualization()
         delete[](finished_vertices);
     }
 
-    if (NULL != current_coloring)
+    if (NULL != current_coloring && CommonSettings::highlight_coloring)
     {
         visualization_colors_red = new refer[chromatic_upper+2];
         visualization_colors_green = new refer[chromatic_upper+2];
@@ -1336,7 +1365,7 @@ void MainWindow::update_graph_visualization()
     for (v=0;v<G->n;v++)
     {
         painter->setPen(QPen(QColor(50,50,50,255), 1, Qt::SolidLine));
-        if (NULL == current_coloring)
+        if (NULL == current_coloring || ! CommonSettings::highlight_coloring)
         {
             painter->setBrush(QColor(128,0,0,255));
         }
@@ -1402,7 +1431,7 @@ void MainWindow::update_graph_visualization()
         }
     }
 
-    if (NULL != current_coloring)
+    if (NULL != current_coloring && CommonSettings::highlight_coloring)
     {
         delete[](visualization_colors_red);
         delete[](visualization_colors_green);

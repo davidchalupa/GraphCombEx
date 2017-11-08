@@ -10,6 +10,8 @@ DialogOptionsVisualization::DialogOptionsVisualization(QWidget *parent) :
     ui->spinBox_crossing_minimization->setValue(CommonSettings::crossing_minimization_time_limit / 1000);
     ui->spinBox_font_size_labels->setValue(CommonSettings::label_font_size);
     ui->spinBox_vertex_radius->setValue(CommonSettings::vertex_radius);
+    ui->checkBox_highlightColoring->setChecked(CommonSettings::highlight_coloring);
+    ui->checkBox_highlightLongestCycle->setChecked(CommonSettings::highlight_longest_cycle);
     connect(ui->buttonBox,SIGNAL(accepted()),this,SLOT(setParams()));
 }
 
@@ -23,4 +25,6 @@ void DialogOptionsVisualization::setParams()
     CommonSettings::crossing_minimization_time_limit = ui->spinBox_crossing_minimization->value() * 1000;
     CommonSettings::label_font_size = ui->spinBox_font_size_labels->value();
     CommonSettings::vertex_radius = ui->spinBox_vertex_radius->value();
+    CommonSettings::highlight_coloring = ui->checkBox_highlightColoring->isChecked();
+    CommonSettings::highlight_longest_cycle = ui->checkBox_highlightLongestCycle->isChecked();
 }

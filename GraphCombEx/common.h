@@ -30,6 +30,8 @@ public:
     static long long crossing_minimization_time_limit;
     static int label_font_size;
     static int vertex_radius;
+    static bool highlight_coloring;
+    static bool highlight_longest_cycle;
 };
 
 void QuickSort(refer *array, int left, int right);
