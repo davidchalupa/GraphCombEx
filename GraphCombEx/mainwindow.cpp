@@ -1523,6 +1523,12 @@ void MainWindow::finishGraphLoading()
     ui->progressBar->repaint();
     ui->label_loading->repaint();
 
+    ui->actionSave->setEnabled(true);
+    ui->actionComplementary_graph->setEnabled(true);
+    ui->actionLargest_component->setEnabled(true);
+    ui->actionGraph_with_pruned_leaves->setEnabled(true);
+    ui->actionGeneralized_dominating_set_graph->setEnabled(true);
+
     QMessageBox::about(this,"Info","Data have been successfully loaded.");
 }
 

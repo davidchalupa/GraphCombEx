@@ -652,7 +652,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1107</width>
-     <height>19</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuGraph_Explorer_0_2">
@@ -875,6 +875,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionSave">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Save</string>
    </property>
@@ -978,11 +981,17 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionGeneralized_dominating_set_graph">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Generalized dominating set graph</string>
    </property>
   </action>
   <action name="actionComplementary_graph">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Complementary graph</string>
    </property>
@@ -1112,11 +1121,17 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionGraph_with_pruned_leaves">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Graph with pruned leaves</string>
    </property>
   </action>
   <action name="actionLargest_component">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Largest component</string>
    </property>
