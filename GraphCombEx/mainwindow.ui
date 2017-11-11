@@ -683,9 +683,17 @@ p, li { white-space: pre-wrap; }
      <property name="title">
       <string>Export</string>
      </property>
+     <widget class="QMenu" name="menuExportILP">
+      <property name="title">
+       <string>ILP instance (MPS)</string>
+      </property>
+      <addaction name="actionExport_dominating_set"/>
+      <addaction name="actionExport_dominating_set_LP_relaxation"/>
+     </widget>
      <addaction name="actionGraph_visualization"/>
      <addaction name="actionAdjacency_matrix_visualization"/>
      <addaction name="actionDegree_distribution"/>
+     <addaction name="menuExportILP"/>
     </widget>
     <widget class="QMenu" name="menuGenerate">
      <property name="title">
@@ -1142,6 +1150,16 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Tree-based</string>
+   </property>
+  </action>
+  <action name="actionExport_dominating_set">
+   <property name="text">
+    <string>Dominating set</string>
+   </property>
+  </action>
+  <action name="actionExport_dominating_set_LP_relaxation">
+   <property name="text">
+    <string>Dominating set (LP relaxation)</string>
    </property>
   </action>
  </widget>

@@ -103,6 +103,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionGraph_visualization,SIGNAL(triggered(bool)),this,SLOT(exportGraphVisualization()));
     connect(ui->actionAdjacency_matrix_visualization,SIGNAL(triggered(bool)),this,SLOT(exportAdjacencyMatrix()));
     connect(ui->actionDegree_distribution,SIGNAL(triggered(bool)),this,SLOT(exportDegreeDistribution()));
+    connect(ui->actionExport_dominating_set,SIGNAL(triggered(bool)),this,SLOT(exportDominatingSet()));
+    connect(ui->actionExport_dominating_set_LP_relaxation,SIGNAL(triggered(bool)),this,SLOT(exportDominatingSetLPRelaxation()));
 
     connect(ui->actionMesh_based,SIGNAL(triggered(bool)),this,SLOT(chooseGridbased()));
     connect(ui->actionTree_based,SIGNAL(triggered(bool)),this,SLOT(chooseTreebased()));
@@ -2915,6 +2917,151 @@ void MainWindow::exportDegreeDistribution()
     }
 
     fclose(target);
+}
+
+void MainWindow::exportDominatingSet()
+{
+    refer i;
+
+    mpsDominatingSetExportFileName = QFileDialog::getSaveFileName(this,"Choose a file to save the ILP instance exported",QString::null,QString::null);
+
+    if (NULL == G || NULL == mpsDominatingSetExportFileName || "" == mpsDominatingSetExportFileName)
+    {
+        return;
+    }
+
+    if (! mpsDominatingSetExportFileName.toLower().endsWith(".mps"))
+    {
+        mpsDominatingSetExportFileName += ".mps";
+    }
+
+    FILE *mpsfile;
+
+    if ((mpsfile = fopen(mpsDominatingSetExportFileName.toLatin1(),"w")) == NULL)
+    {
+        QMessageBox::about(this,"Error","An error occured saving of the ILP instance exported.");
+        return;
+    }
+
+    refer v, j;
+    bool *domination_influences = new bool[G->n];
+    char filename_mps[PATH_MAX];
+
+    fprintf(mpsfile, "NAME DOMINATINGSET\n");
+    fprintf(mpsfile, "ROWS\n");
+    fprintf(mpsfile, " N COST\n");
+    for (v=0;v<G->n;v++)
+    {
+        fprintf(mpsfile, "    G LIM%u\n", v+1);
+    }
+    fprintf(mpsfile, "COLUMNS\n");
+    for (v=0;v<G->n;v++)
+    {
+        fprintf(mpsfile, "    x%u   COST 1\n", v+1);
+        for (j=0;j<G->n;j++)
+        {
+            domination_influences[j] = false;
+        }
+        domination_influences[v] = true;
+        // other constraints - neighbours of v
+        for (j=0;j<G->V[v].edgecount;j++)
+        {
+            domination_influences[G->V[v].sibl[j]] = true;
+        }
+        for (j=0;j<G->n;j++)
+        {
+            if (domination_influences[j])
+            {
+                fprintf(mpsfile, "    x%u   LIM%u %u\n", v+1, j+1, domination_influences[j]);
+            }
+        }
+    }
+    fprintf(mpsfile, "RHS\n");
+    for (v=0;v<G->n;v++)
+    {
+        fprintf(mpsfile, "    RHS1 LIM%u 1\n", v+1);
+    }
+    fprintf(mpsfile, "BOUNDS\n");
+    for (v=0;v<G->n;v++)
+    {
+        fprintf(mpsfile, " BV ONE x%u 1\n", v+1, v+1);
+    }
+    fprintf(mpsfile, "ENDATA\n");
+    fclose(mpsfile);
+
+    delete[](domination_influences);
+
+    fclose(mpsfile);
+}
+
+void MainWindow::exportDominatingSetLPRelaxation()
+{
+    refer i;
+
+    mpsDominatingSetExportFileName = QFileDialog::getSaveFileName(this,"Choose a file to save the ILP instance exported",QString::null,QString::null);
+
+    if (NULL == G || NULL == mpsDominatingSetExportFileName || "" == mpsDominatingSetExportFileName)
+    {
+        return;
+    }
+
+    if (! mpsDominatingSetExportFileName.toLower().endsWith(".mps"))
+    {
+        mpsDominatingSetExportFileName += ".mps";
+    }
+
+    FILE *mpsfile;
+
+    if ((mpsfile = fopen(mpsDominatingSetExportFileName.toLatin1(),"w")) == NULL)
+    {
+        QMessageBox::about(this,"Error","An error occured saving of the ILP instance exported.");
+        return;
+    }
+
+    refer v, j;
+    bool *domination_influences = new bool[G->n];
+    char filename_mps[PATH_MAX];
+
+    fprintf(mpsfile, "NAME DOMINATINGSET\n");
+    fprintf(mpsfile, "ROWS\n");
+    fprintf(mpsfile, " N COST\n");
+    for (v=0;v<G->n;v++)
+    {
+        fprintf(mpsfile, "    G LIM%u\n", v+1);
+    }
+    fprintf(mpsfile, "COLUMNS\n");
+    for (v=0;v<G->n;v++)
+    {
+        fprintf(mpsfile, "    x%u   COST 1\n", v+1);
+        for (j=0;j<G->n;j++)
+        {
+            domination_influences[j] = false;
+        }
+        domination_influences[v] = true;
+        // other constraints - neighbours of v
+        for (j=0;j<G->V[v].edgecount;j++)
+        {
+            domination_influences[G->V[v].sibl[j]] = true;
+        }
+        for (j=0;j<G->n;j++)
+        {
+            if (domination_influences[j])
+            {
+                fprintf(mpsfile, "    x%u   LIM%u %u\n", v+1, j+1, domination_influences[j]);
+            }
+        }
+    }
+    fprintf(mpsfile, "RHS\n");
+    for (v=0;v<G->n;v++)
+    {
+        fprintf(mpsfile, "    RHS1 LIM%u 1\n", v+1);
+    }
+    fprintf(mpsfile, "ENDATA\n");
+    fclose(mpsfile);
+
+    delete[](domination_influences);
+
+    fclose(mpsfile);
 }
 
 void MainWindow::countTriangles()

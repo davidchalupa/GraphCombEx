@@ -33,6 +33,7 @@ private:
     QString graphVisualizationExportFileName;
     QString adjacencyMatrixExportFileName;
     QString degreeDistributionExportFileName;
+    QString mpsDominatingSetExportFileName;
 
     refer n_max, w;
     refer range, grid;
@@ -157,6 +158,8 @@ public slots:
     void exportGraphVisualization();
     void exportAdjacencyMatrix();
     void exportDegreeDistribution();
+    void exportDominatingSet();
+    void exportDominatingSetLPRelaxation();
 
     void choose1x();
     void choose2x();
