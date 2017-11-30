@@ -141,6 +141,12 @@ refer algorithm_lscycle::dfs_ls_cycle(graph G, refer *result)
 
     longest = dfs_cycle(G, longest_cycle_vertices);
 
+    if (0 == longest)
+    {
+        delete[](longest_cycle_vertices);
+        return 0;
+    }
+
     bool *in_cycle = new bool[G->n];
     for (v=0;v<G->n;v++)
     {
