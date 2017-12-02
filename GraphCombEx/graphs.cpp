@@ -39,18 +39,22 @@ int input_graph(FILE *source)
     is_labeled = false;
     while ((ch = fgetc(source)) == 'c')
     {
-        if (EOF != fscanf(source, "%u", &v) && (is_labeled || (! is_labeled && 1 == v)))
+        if ((ch = fgetc(source)) != '\n')
         {
-            fgets(&vertex_labels[v-1][0], MAX_VERTEX_LABEL, source);
-            is_labeled = true;
-            if ('\n' != vertex_labels[v-1][strlen(vertex_labels[v-1])-1])
+            ungetc(ch, source);
+            if (EOF != fscanf(source, "%u", &v) && (is_labeled || (! is_labeled && 1 == v)))
+            {
+                fgets(&vertex_labels[v-1][0], MAX_VERTEX_LABEL, source);
+                is_labeled = true;
+                if ('\n' != vertex_labels[v-1][strlen(vertex_labels[v-1])-1])
+                {
+                    while ((ch = fgetc(source)) != '\n');
+                }
+            }
+            else
             {
                 while ((ch = fgetc(source)) != '\n');
             }
-        }
-        else
-        {
-            while ((ch = fgetc(source)) != '\n');
         }
     }
 
