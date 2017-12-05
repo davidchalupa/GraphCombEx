@@ -1158,59 +1158,62 @@ void MainWindow::update_graph_visualization()
             }
         }
 
-        if (v_central_found)
+        if (v_central_found || longest_cycle_lower == G->n)
         {
-            myx[v_central] = (current_visualization_size) / 2;
-            myy[v_central] = (current_visualization_size) / 2;
-
-            // now breadth-first search to find positions for other vertices
-            queue_current = 0;
-            queue_size = 1;
-            queue[0] = v_central;
-            distances[v_central] = 0;
-            while (queue_size)
+            if (longest_cycle_lower != G->n)
             {
-                v = queue[queue_current];
-                current_distance = distances[v];
-                queue_current++;
-                queue_size--;
-                for (j=0;j<G->V[v].edgecount;j++)
+                myx[v_central] = (current_visualization_size) / 2;
+                myy[v_central] = (current_visualization_size) / 2;
+
+                // now breadth-first search to find positions for other vertices
+                queue_current = 0;
+                queue_size = 1;
+                queue[0] = v_central;
+                distances[v_central] = 0;
+                while (queue_size)
                 {
-                    if (0 == distances[G->V[v].sibl[j]] && G->V[v].sibl[j] != v_central)
+                    v = queue[queue_current];
+                    current_distance = distances[v];
+                    queue_current++;
+                    queue_size--;
+                    for (j=0;j<G->V[v].edgecount;j++)
                     {
-                        queue[queue_current+queue_size] = G->V[v].sibl[j];
-                        distances[G->V[v].sibl[j]] = current_distance + 1;
-                        if (max_distance < distances[G->V[v].sibl[j]])
+                        if (0 == distances[G->V[v].sibl[j]] && G->V[v].sibl[j] != v_central)
                         {
-                            max_distance = distances[G->V[v].sibl[j]];
+                            queue[queue_current+queue_size] = G->V[v].sibl[j];
+                            distances[G->V[v].sibl[j]] = current_distance + 1;
+                            if (max_distance < distances[G->V[v].sibl[j]])
+                            {
+                                max_distance = distances[G->V[v].sibl[j]];
+                            }
+                            queue_size++;
                         }
-                        queue_size++;
                     }
                 }
-            }
 
-            // vertices outside of the main component
-            j = 0;
-            current_count = 0;
-            for (v=0;v<G->n;v++)
-            {
-                if (! finished_vertices[v] && distances[v] == j)
-                {
-                    current_count++;
-                }
-            }
-            if (current_count > 1)
-            {
-                large_component = false;
-                current_radius = (current_visualization_size - VISUALIZATION_MARGIN) / 2;
-                remaining = current_count-1;
+                // vertices outside of the main component
+                j = 0;
+                current_count = 0;
                 for (v=0;v<G->n;v++)
                 {
-                    if (! finished_vertices[v] && distances[v] == 0 && v != v_central)
+                    if (! finished_vertices[v] && distances[v] == j)
                     {
-                        myx[v] = current_visualization_size / 2 + (refer) (current_radius * cos((double) remaining * 2.0 * 3.141592653 / (double) current_count));
-                        myy[v] = current_visualization_size / 2 + (refer) (current_radius * sin((double) remaining * 2.0 * 3.141592653 / (double) current_count));
-                        remaining--;
+                        current_count++;
+                    }
+                }
+                if (current_count > 1)
+                {
+                    large_component = false;
+                    current_radius = (current_visualization_size - VISUALIZATION_MARGIN) / 2;
+                    remaining = current_count-1;
+                    for (v=0;v<G->n;v++)
+                    {
+                        if (! finished_vertices[v] && distances[v] == 0 && v != v_central)
+                        {
+                            myx[v] = current_visualization_size / 2 + (refer) (current_radius * cos((double) remaining * 2.0 * 3.141592653 / (double) current_count));
+                            myy[v] = current_visualization_size / 2 + (refer) (current_radius * sin((double) remaining * 2.0 * 3.141592653 / (double) current_count));
+                            remaining--;
+                        }
                     }
                 }
             }
@@ -1233,35 +1236,38 @@ void MainWindow::update_graph_visualization()
                 remaining--;
             }
 
-            // vertices inside the main component
-            for (j=1;j<=max_distance;j++)
+            if (longest_cycle_lower != G->n)
             {
-                current_count = 0;
-                for (v=0;v<G->n;v++)
+                // vertices inside the main component
+                for (j=1;j<=max_distance;j++)
                 {
-                    if (! finished_vertices[v] && distances[v] == j)
+                    current_count = 0;
+                    for (v=0;v<G->n;v++)
                     {
-                        current_count++;
+                        if (! finished_vertices[v] && distances[v] == j)
+                        {
+                            current_count++;
+                        }
                     }
-                }
-                if (large_component)
-                {
-                    current_radius = (double) (j * (current_visualization_size- VISUALIZATION_MARGIN) / 2) / (double) (max_distance+1);
-                }
-                else
-                {
-                    current_radius = (double) (j * (current_visualization_size- VISUALIZATION_MARGIN) / 2) / (double) (max_distance+2);
-                }
-                remaining = current_count - 1;
-                // iterating over the vertices in a randomized order (to randomize order of vertices in a particular layer)
-                for (i=0;i<non_cycle_vertices;i++)
-                {
-                    v = vertex_permutation[i];
-                    if (! finished_vertices[v] && distances[v] == j)
+                    if (large_component)
                     {
-                        myx[v] = (current_visualization_size) / 2 + (refer) (current_radius * cos((double) remaining * 2.0 * 3.141592653 / (double) current_count));
-                        myy[v] = (current_visualization_size) / 2 + (refer) (current_radius * sin((double) remaining * 2.0 * 3.141592653 / (double) current_count));
-                        remaining--;
+                        current_radius = (double) (j * (current_visualization_size- VISUALIZATION_MARGIN) / 2) / (double) (max_distance+1);
+                    }
+                    else
+                    {
+                        current_radius = (double) (j * (current_visualization_size- VISUALIZATION_MARGIN) / 2) / (double) (max_distance+2);
+                    }
+                    remaining = current_count - 1;
+                    // iterating over the vertices in a randomized order (to randomize order of vertices in a particular layer)
+                    for (i=0;i<non_cycle_vertices;i++)
+                    {
+                        v = vertex_permutation[i];
+                        if (! finished_vertices[v] && distances[v] == j)
+                        {
+                            myx[v] = (current_visualization_size) / 2 + (refer) (current_radius * cos((double) remaining * 2.0 * 3.141592653 / (double) current_count));
+                            myy[v] = (current_visualization_size) / 2 + (refer) (current_radius * sin((double) remaining * 2.0 * 3.141592653 / (double) current_count));
+                            remaining--;
+                        }
                     }
                 }
             }
