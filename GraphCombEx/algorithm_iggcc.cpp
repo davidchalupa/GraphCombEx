@@ -235,7 +235,7 @@ bool algorithm_iggcc::iggcc_ccp(graph G, refer *result, refer *indset_size, refe
     // evolution of the permutation
     t = 0;
     t_stag = 0;
-    t_stag_max = 100*G->n;
+    t_stag_max = CommonSettings::max_iter_stag_igccp;
     while (t_stag < t_stag_max && fitness_indset < colors_count)
     {
         colors_count_old = colors_count;

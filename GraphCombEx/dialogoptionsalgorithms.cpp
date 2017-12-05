@@ -15,6 +15,8 @@ DialogOptionsAlgorithms::DialogOptionsAlgorithms(QWidget *parent) :
     ui->spinBox_greedy_dominating_set->setValue(CommonSettings::runs_greedy_dominating_set);
     ui->spinBox_depth_first_search->setValue(CommonSettings::runs_dfs);
     ui->spinBox_depth_first_search_local_search->setValue(CommonSettings::runs_dfs_ls);
+    ui->spinBox_randomized_local_search_and_iterated_greedy_clique_maxiter->setValue(CommonSettings::max_iter_stag_igcol);
+    ui->spinBox_randomized_local_search_and_iterated_greedy_independent_set_maxiter->setValue(CommonSettings::max_iter_stag_igccp);
 
     connect(ui->buttonBox,SIGNAL(accepted()),this,SLOT(setParams()));
 }
@@ -34,5 +36,7 @@ void DialogOptionsAlgorithms::setParams()
     CommonSettings::runs_greedy_dominating_set = ui->spinBox_greedy_dominating_set->value();
     CommonSettings::runs_dfs = ui->spinBox_depth_first_search->value();
     CommonSettings::runs_dfs_ls = ui->spinBox_depth_first_search_local_search->value();
+    CommonSettings::max_iter_stag_igcol = ui->spinBox_randomized_local_search_and_iterated_greedy_clique_maxiter->value();
+    CommonSettings::max_iter_stag_igccp = ui->spinBox_randomized_local_search_and_iterated_greedy_independent_set_maxiter->value();
 }
 

@@ -32,6 +32,8 @@ public:
     static int vertex_radius;
     static bool highlight_coloring;
     static bool highlight_longest_cycle;
+    static long long max_iter_stag_igcol;
+    static long long max_iter_stag_igccp;
 };
 
 void QuickSort(refer *array, int left, int right);

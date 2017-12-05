@@ -195,7 +195,7 @@ bool algorithm_igcol::igcol(graph G, bool random_coloring_init, refer *result, r
     // evolution of the permutation
     t = 0;
     t_stag = 0;
-    t_stag_max = 100*G->n;
+    t_stag_max = CommonSettings::max_iter_stag_igcol;
     while (t_stag < t_stag_max && fitness_clique < colors_count)
     {
         colors_count_old = colors_count;

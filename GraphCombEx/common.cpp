@@ -16,6 +16,8 @@ int CommonSettings::label_font_size = 4;
 int CommonSettings::vertex_radius = 3;
 bool CommonSettings::highlight_coloring = true;
 bool CommonSettings::highlight_longest_cycle = true;
+long long CommonSettings::max_iter_stag_igcol = 100;
+long long CommonSettings::max_iter_stag_igccp = 100;
 
 void swap(refer *a, refer *b)
 {
