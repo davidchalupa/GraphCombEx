@@ -24,7 +24,7 @@ typedef struct GRAPH_DATA
 } graph_data;
 typedef graph_data *graph;
 
-int input_graph(FILE *source);
+int input_graph(FILE *source, const char *file_format);
 int output_graph(FILE *target);
 void free_graph();
 graph get_graph();

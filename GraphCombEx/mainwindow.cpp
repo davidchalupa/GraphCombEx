@@ -1776,13 +1776,23 @@ void MainWindow::finishWorkerThreadColoring()
 void MainWindow::loadGraphProcessing()
 {
     FILE *source;
+    QString file_format;
+
+    if (graphFileName.endsWith(".gml"))
+    {
+        file_format = "gml";
+    }
+    else
+    {
+        file_format = "col";
+    }
 
     if ((source = fopen(graphFileName.toLatin1(),"r")) == NULL)
     {
         QMessageBox::about(this,"Error","An error occured during opening of the file.");
         return;
     }
-    if (input_graph(source) > 0)
+    if (input_graph(source, file_format.toLatin1()) > 0)
     {
         QMessageBox::about(this,"Error","An error occured during opening of the file.");
         return;
@@ -3344,7 +3354,7 @@ void MainWindow::showOptionsVisualization()
 
 void MainWindow::showAboutWindow()
 {
-    QMessageBox::about(this, "About", "Graph Combinatorial Explorer, version 1.0 \n\n(c) David Chalupa, 2011-2017");
+    QMessageBox::about(this, "About", "Graph Combinatorial Explorer, version 1.0 \n\n(c) David Chalupa, 2011-2020");
 }
 
 void MainWindow::logMessage(QString msg)
