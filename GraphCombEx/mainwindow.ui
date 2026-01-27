@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>1107</width>
-    <height>684</height>
+    <height>694</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>1107</width>
-    <height>684</height>
+    <height>694</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>1107</width>
-    <height>684</height>
+    <height>694</height>
    </size>
   </property>
   <property name="font">
@@ -263,6 +263,18 @@
       <height>621</height>
      </rect>
     </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
+    </property>
+    <property name="midLineWidth">
+     <number>0</number>
+    </property>
     <property name="html">
      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -276,8 +288,8 @@ p, li { white-space: pre-wrap; }
      <rect>
       <x>10</x>
       <y>230</y>
-      <width>410</width>
-      <height>410</height>
+      <width>411</width>
+      <height>411</height>
      </rect>
     </property>
    </widget>
@@ -505,9 +517,9 @@ p, li { white-space: pre-wrap; }
    <widget class="QLabel" name="label_loading">
     <property name="geometry">
      <rect>
-      <x>510</x>
+      <x>500</x>
       <y>270</y>
-      <width>131</width>
+      <width>151</width>
       <height>21</height>
      </rect>
     </property>
@@ -652,7 +664,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1107</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuGraph_Explorer_0_2">

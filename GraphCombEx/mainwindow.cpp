@@ -2448,7 +2448,7 @@ void MainWindow::computeLongestCycleDFSLSProcessing()
 
 void MainWindow::loadGraph()
 {
-    graphFileName = QFileDialog::getOpenFileName(this,"Choose a file to open",QString::null,QString::null);
+    graphFileName = QFileDialog::getOpenFileName(this,"Choose a file to open",QString::null,"COL files (*.col);;GML files (*.gml)");
 
     if (NULL == graphFileName || "" == graphFileName)
     {
@@ -2833,7 +2833,8 @@ void MainWindow::generateGraphGrid()
 
 void MainWindow::saveGraph()
 {
-    newGraphFileName = QFileDialog::getSaveFileName(this,"Choose a file to save the graph",QString::null,QString::null);
+    newGraphFileName = QFileDialog::getSaveFileName(this,"Choose a file to save the graph",QString::null,"COL file (*.col);;All files (*.*)" );
+//    newGraphFileName = QFileDialog::getSaveFileName(this,"Choose a file to save the graph",QString::null,QString::null);
 
     if (NULL == G || NULL == newGraphFileName || "" == newGraphFileName)
     {
@@ -2852,7 +2853,12 @@ void MainWindow::saveGraph()
 
 void MainWindow::exportGraphVisualization()
 {
-    graphVisualizationExportFileName = QFileDialog::getSaveFileName(this,"Choose a file to save the visualization",QString::null,QString::null);
+    graphVisualizationExportFileName = QFileDialog::getSaveFileName(
+        this,
+        "Choose a file to save the visualization",
+        QString::null,
+        "PNG file (*.png);;BNP file (*.bmp);;JPG file (*.jpg)"
+    );
 
     if (NULL == G || NULL == graphVisualizationExportFileName || "" == graphVisualizationExportFileName)
     {
@@ -2875,7 +2881,12 @@ void MainWindow::exportGraphVisualization()
 
 void MainWindow::exportAdjacencyMatrix()
 {
-    adjacencyMatrixExportFileName = QFileDialog::getSaveFileName(this,"Choose a file to save the visualization",QString::null,QString::null);
+    adjacencyMatrixExportFileName = QFileDialog::getSaveFileName(
+                this,
+                "Choose a file to save the visualization",
+                QString::null,
+                "PNG file (*.png);;BNP file (*.bmp);;JPG file (*.jpg)"
+            );
 
     if (NULL == G || NULL == adjacencyMatrixExportFileName || "" == adjacencyMatrixExportFileName)
     {
@@ -2900,7 +2911,12 @@ void MainWindow::exportDegreeDistribution()
 {
     refer i;
 
-    degreeDistributionExportFileName = QFileDialog::getSaveFileName(this,"Choose a file to save the degree distribution data",QString::null,QString::null);
+    degreeDistributionExportFileName = QFileDialog::getSaveFileName(
+                this,
+                "Choose a file to save the visualization",
+                QString::null,
+                "CSV file (*.csv)"
+            );
 
     if (NULL == G || NULL == degreeDistributionExportFileName || "" == degreeDistributionExportFileName)
     {
@@ -2939,7 +2955,7 @@ void MainWindow::exportDominatingSet()
 {
     refer i;
 
-    mpsDominatingSetExportFileName = QFileDialog::getSaveFileName(this,"Choose a file to save the ILP instance exported",QString::null,QString::null);
+    mpsDominatingSetExportFileName = QFileDialog::getSaveFileName(this,"Choose a file to save the ILP instance exported",QString::null,"MPS file (*.mps)");
 
     if (NULL == G || NULL == mpsDominatingSetExportFileName || "" == mpsDominatingSetExportFileName)
     {
@@ -3014,7 +3030,7 @@ void MainWindow::exportDominatingSetLPRelaxation()
 {
     refer i;
 
-    mpsDominatingSetExportFileName = QFileDialog::getSaveFileName(this,"Choose a file to save the ILP instance exported",QString::null,QString::null);
+    mpsDominatingSetExportFileName = QFileDialog::getSaveFileName(this,"Choose a file to save the ILP instance exported",QString::null,"MPS file (*.mps)");
 
     if (NULL == G || NULL == mpsDominatingSetExportFileName || "" == mpsDominatingSetExportFileName)
     {
