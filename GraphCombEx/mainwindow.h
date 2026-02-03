@@ -154,6 +154,7 @@ public slots:
     void chooseCentralitybased();
     void chooseCircular();
     void chooseCyclebased();
+    void chooseCrossingsbased();
 
     void exportGraphVisualization();
     void exportAdjacencyMatrix();

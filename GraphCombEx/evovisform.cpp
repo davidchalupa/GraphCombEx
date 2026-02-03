@@ -65,6 +65,7 @@ EvoVisForm::EvoVisForm(QWidget *parent) :
     connect(&this->FutureWatcherVisualizationUpdate,SIGNAL(finished()),this,SLOT(finishVisualizationUpdate()));
 
     connect(workerThreadCrossingMinimization,SIGNAL(updateGraphVisualizationSignal(refer *,refer *)),this,SLOT(updateGraphVisualizationOptimized(refer *,refer *)));
+    connect(workerThreadCrossingMinimization,SIGNAL(updateGraphVisualizationFinalSignal(refer *,refer *)),this,SLOT(updateGraphVisualizationFinal(refer *,refer *)));
 }
 
 void EvoVisForm::showEvent(QShowEvent *event)
@@ -88,6 +89,8 @@ void EvoVisForm::setCrossingMinimisationParams(graph G, refer max_deg, refer *my
         this->myx[i] = myx[i] * CROSSING_VISUALIZATION_SIZE / main_visualization_size;
         this->myy[i] = myy[i] * CROSSING_VISUALIZATION_SIZE / main_visualization_size;
     }
+
+    this->main_visualization_size = main_visualization_size;
 }
 
 void EvoVisForm::startCrossingMinimisation()
@@ -331,6 +334,12 @@ void EvoVisForm::updateGraphVisualizationOptimized(refer *myx, refer *myy)
     ui->label_variance->repaint();
 }
 
+void EvoVisForm::updateGraphVisualizationFinal(refer *myx, refer *myy)
+{
+    updateGraphVisualizationOptimized(myx, myy);
+    updateMainGraphVisualization(myx, myy);
+}
+
 void EvoVisForm::finishVisualizationUpdate()
 {
     refer current_visualization_size;
@@ -393,6 +402,26 @@ void EvoVisForm::exportGraphVisualization()
     pixmap_image.setDotsPerMeterX(6000);
     pixmap_image.setDotsPerMeterY(6000);
     pixmap_image.save(graphVisualizationExportFileName);
+}
+
+void EvoVisForm::updateMainGraphVisualization(refer *myx, refer *myy)
+{
+    CommonSettings::show_evolved_graph_visualization = true;
+
+    refer *scaled_myx = new refer[G->n];
+    refer *scaled_myy = new refer[G->n];
+
+    int i;
+    for (i=0;i<G->n;i++)
+    {
+        scaled_myx[i] = myx[i] * this->main_visualization_size / CROSSING_VISUALIZATION_SIZE;
+        scaled_myy[i] = myy[i] * this->main_visualization_size / CROSSING_VISUALIZATION_SIZE;
+    }
+
+    set_evolved_graph_visualization(scaled_myx, scaled_myy, G->n);
+
+    delete[](scaled_myx);
+    delete[](scaled_myy);
 }
 
 EvoVisForm::~EvoVisForm()
@@ -713,7 +742,7 @@ void WorkerThreadCrossingMinimization::crossingMinimization()
     acc_crossing_vertices = NULL;
 
     crossing_number_global = crossing_number;
-    updateGraphVisualization(myx, myy);
+    updateGraphVisualizationFinal(myx, myy);
 }
 
 void WorkerThreadCrossingMinimization::setParams(graph G, refer *myx, refer *myy)
@@ -726,6 +755,11 @@ void WorkerThreadCrossingMinimization::setParams(graph G, refer *myx, refer *myy
 void WorkerThreadCrossingMinimization::updateGraphVisualization(refer *myx, refer *myy)
 {
     emit updateGraphVisualizationSignal(myx, myy);
+}
+
+void WorkerThreadCrossingMinimization::updateGraphVisualizationFinal(refer *myx, refer *myy)
+{
+    emit updateGraphVisualizationFinalSignal(myx, myy);
 }
 
 void WorkerThreadCrossingMinimization::run()

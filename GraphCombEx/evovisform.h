@@ -37,6 +37,8 @@ private:
 
     unsigned long long crossing_number;
 
+    refer main_visualization_size;
+
     bool graph_visualization_visible;
     QPixmap *pixmap_graph_visualization;
 
@@ -49,6 +51,8 @@ private:
 
     void updateVisualizationProcessing();
 
+    void updateMainGraphVisualization(refer *myx, refer *myy);
+
     QGraphicsPixmapItem *pixmapItemGVOptimized;
     QGraphicsScene *scene_graph_visualization_optimized;
 
@@ -56,6 +60,7 @@ public slots:
     void exportGraphVisualization();
     void finishVisualizationUpdate();
     void updateGraphVisualizationOptimized(refer *myx, refer *myy);
+    void updateGraphVisualizationFinal(refer *myx, refer *myy);
 };
 
 class WorkerThreadCrossingMinimization : public QThread
@@ -74,6 +79,7 @@ private:
     refer *draw_myy;
     bool *crossing_vertices;
     bool *acc_crossing_vertices;
+    refer main_visualization_size;
 
 public:
     WorkerThreadCrossingMinimization();
@@ -82,8 +88,10 @@ public:
     void setParams(graph G, refer *myx, refer *myy);
     void run() Q_DECL_OVERRIDE;
     void updateGraphVisualization(refer *myx, refer *myy);
+    void updateGraphVisualizationFinal(refer *myx, refer *myy);
 
 signals:
+    void updateGraphVisualizationFinalSignal(refer *myx, refer *myy);
     void updateGraphVisualizationSignal(refer *myx, refer *myy);
 
 };

@@ -18,6 +18,9 @@ bool CommonSettings::highlight_coloring = true;
 bool CommonSettings::highlight_longest_cycle = true;
 long long CommonSettings::max_iter_stag_igcol = 100;
 long long CommonSettings::max_iter_stag_igccp = 100;
+bool CommonSettings::show_evolved_graph_visualization = false;
+refer *CommonSettings::myx = NULL;
+refer *CommonSettings::myy = NULL;
 
 void swap(refer *a, refer *b)
 {
@@ -121,4 +124,37 @@ unsigned long long power(unsigned long long base, unsigned long long exponent)
     }
 
     return value;
+}
+
+void set_evolved_graph_visualization(refer *myx, refer *myy, refer n) {
+    if (NULL == CommonSettings::myx)
+    {
+        CommonSettings::myx = new refer[n];
+    }
+    if (NULL == CommonSettings::myy)
+    {
+        CommonSettings::myy = new refer[n];
+    }
+
+    refer v;
+    for (v=0; v<n; v++) {
+        CommonSettings::myx[v] = myx[v];
+        CommonSettings::myy[v] = myy[v];
+    }
+}
+
+
+void clear_evolved_graph_visualization() {
+    CommonSettings::show_evolved_graph_visualization = false;
+
+    if (NULL != CommonSettings::myx)
+    {
+        delete[](CommonSettings::myx);
+        CommonSettings::myx = NULL;
+    }
+    if (NULL != CommonSettings::myy)
+    {
+        delete[](CommonSettings::myy);
+        CommonSettings::myy = NULL;
+    }
 }

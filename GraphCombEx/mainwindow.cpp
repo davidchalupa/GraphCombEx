@@ -111,6 +111,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionCentrality_based,SIGNAL(triggered(bool)),this,SLOT(chooseCentralitybased()));
     connect(ui->actionCircular,SIGNAL(triggered(bool)),this,SLOT(chooseCircular()));
     connect(ui->actionCycle_based,SIGNAL(triggered(bool)),this,SLOT(chooseCyclebased()));
+    connect(ui->actionCrossings_based,SIGNAL(triggered(bool)),this,SLOT(chooseCrossingsbased()));
+
     connect(ui->action1x,SIGNAL(triggered(bool)),this,SLOT(choose1x()));
     connect(ui->action2x,SIGNAL(triggered(bool)),this,SLOT(choose2x()));
     connect(ui->action5x,SIGNAL(triggered(bool)),this,SLOT(choose5x()));
@@ -195,6 +197,7 @@ void MainWindow::chooseCentralitybased()
     ui->actionCircular->setChecked(false);
     ui->actionCycle_based->setChecked(false);
     ui->actionTree_based->setChecked(false);
+    ui->actionCrossings_based->setChecked(false);
 
     ui->progressBar->show();
     ui->label_loading->show();
@@ -212,6 +215,7 @@ void MainWindow::chooseGridbased()
     ui->actionCircular->setChecked(false);
     ui->actionCycle_based->setChecked(false);
     ui->actionTree_based->setChecked(false);
+    ui->actionCrossings_based->setChecked(false);
 
     ui->progressBar->show();
     ui->label_loading->show();
@@ -229,6 +233,7 @@ void MainWindow::chooseTreebased()
     ui->actionCircular->setChecked(false);
     ui->actionCycle_based->setChecked(false);
     ui->actionTree_based->setChecked(true);
+    ui->actionCrossings_based->setChecked(false);
 
     ui->progressBar->show();
     ui->label_loading->show();
@@ -246,6 +251,7 @@ void MainWindow::chooseCircular()
     ui->actionCircular->setChecked(true);
     ui->actionCycle_based->setChecked(false);
     ui->actionTree_based->setChecked(false);
+    ui->actionCrossings_based->setChecked(false);
 
     ui->progressBar->show();
     ui->label_loading->show();
@@ -263,6 +269,25 @@ void MainWindow::chooseCyclebased()
     ui->actionCircular->setChecked(false);
     ui->actionCycle_based->setChecked(true);
     ui->actionTree_based->setChecked(false);
+    ui->actionCrossings_based->setChecked(false);
+
+    ui->progressBar->show();
+    ui->label_loading->show();
+    ui->progressBar->repaint();
+    ui->label_loading->repaint();
+
+    QFuture<void> future = QtConcurrent::run(this, &MainWindow::updateVisualizationProcessing);
+    this->FutureWatcherVisualizationUpdate.setFuture(future);
+}
+
+void MainWindow::chooseCrossingsbased()
+{
+    ui->actionMesh_based->setChecked(false);
+    ui->actionCentrality_based->setChecked(false);
+    ui->actionCircular->setChecked(false);
+    ui->actionCycle_based->setChecked(false);
+    ui->actionTree_based->setChecked(false);
+    ui->actionCrossings_based->setChecked(true);
 
     ui->progressBar->show();
     ui->label_loading->show();
@@ -669,7 +694,44 @@ void MainWindow::update_graph_visualization()
     myx = new refer[G->n];
     myy = new refer[G->n];
 
-    if (ui->actionMesh_based->isChecked())
+    if (ui->actionCrossings_based->isChecked() && CommonSettings::show_evolved_graph_visualization)
+    {
+        refer j;
+        int shade;
+        for (v=0;v<G->n;v++)
+        {
+            myx[v] = CommonSettings::myx[v] * current_visualization_size / VISUALIZATION_SIZE;
+            myy[v] = CommonSettings::myy[v] * current_visualization_size / VISUALIZATION_SIZE;
+        }
+
+        for (v=0;v<G->n;v++)
+        {
+            for (j=0;j<G->V[v].edgecount;j++)
+            {
+                shade = generator.random(50,150);
+                painter->setPen(QPen(QColor(shade,shade,shade,255), 1, Qt::SolidLine));
+                painter->drawLine(myx[v],myy[v],myx[G->V[v].sibl[j]],myy[G->V[v].sibl[j]]);
+            }
+        }
+        if (NULL != current_longest_cycle_vertices && CommonSettings::highlight_longest_cycle)
+        {
+            for (j=0;j<longest_cycle_lower;j++)
+            {
+                v = current_longest_cycle_vertices[j];
+                if (j < longest_cycle_lower-1)
+                {
+                    w = current_longest_cycle_vertices[j+1];
+                }
+                else
+                {
+                    w = current_longest_cycle_vertices[0];
+                }
+                painter->setPen(QPen(QColor(50,50,50,255), 5, Qt::SolidLine));
+                painter->drawLine(myx[v],myy[v],myx[w],myy[w]);
+            }
+        }
+    }
+    else if (ui->actionMesh_based->isChecked())
     {
         // grid-based visualization
         refer j;
@@ -725,7 +787,8 @@ void MainWindow::update_graph_visualization()
             }
         }
     }
-    else if (ui->actionCentrality_based->isChecked())
+    // ToDo: this is just a workaround for crossings-based without crossing minimization result available
+    else if (ui->actionCentrality_based->isChecked() || ui->actionCrossings_based->isChecked() && ! CommonSettings::show_evolved_graph_visualization)
     {
         // centrality-based visualization
         distances = new refer[G->n];
@@ -1092,7 +1155,7 @@ void MainWindow::update_graph_visualization()
             }
         }
     }
-    else
+    else if (ui->actionCycle_based->isChecked())
     {
         // cycle-based visualization
         bool *finished_vertices = new bool[G->n];
@@ -1471,7 +1534,13 @@ void MainWindow::finishGraphLoading()
         ui->actionCentrality_based->setChecked(true);
         ui->actionCycle_based->setChecked(false);
     }
+    if (ui->actionCrossings_based->isChecked())
+    {
+        ui->actionCentrality_based->setChecked(true);
+        ui->actionCrossings_based->setChecked(false);
+    }
     ui->actionCycle_based->setEnabled(false);
+    ui->actionCrossings_based->setEnabled(false);
 
     // adjacency matrix
     QGraphicsPixmapItem *pixmapItemAM = new QGraphicsPixmapItem();
@@ -2476,6 +2545,7 @@ void MainWindow::loadGraph()
         delete[](current_longest_cycle_vertices);
         current_longest_cycle_vertices = NULL;
     }
+    clear_evolved_graph_visualization();
 
     ui->progressBar->show();
     ui->label_loading->show();
@@ -2526,6 +2596,7 @@ void MainWindow::generateGraphBA()
         delete[](current_longest_cycle_vertices);
         current_longest_cycle_vertices = NULL;
     }
+    clear_evolved_graph_visualization();
 
     QFuture<void> future = QtConcurrent::run(this, &MainWindow::generateGraphBAProcessing);
     this->FutureWatcherGraphLoading.setFuture(future);
@@ -2571,6 +2642,7 @@ void MainWindow::generateGraphUDG()
         delete[](current_longest_cycle_vertices);
         current_longest_cycle_vertices = NULL;
     }
+    clear_evolved_graph_visualization();
 
     QFuture<void> future = QtConcurrent::run(this, &MainWindow::generateGraphUDGProcessing);
     this->FutureWatcherGraphLoading.setFuture(future);
@@ -2616,6 +2688,7 @@ void MainWindow::generateGraphCompleteTree()
         delete[](current_longest_cycle_vertices);
         current_longest_cycle_vertices = NULL;
     }
+    clear_evolved_graph_visualization();
 
     QFuture<void> future = QtConcurrent::run(this, &MainWindow::generateGraphCompleteTreeProcessing);
     this->FutureWatcherGraphLoading.setFuture(future);
@@ -2640,6 +2713,7 @@ void MainWindow::generateComplementaryGraph()
         delete[](current_longest_cycle_vertices);
         current_longest_cycle_vertices = NULL;
     }
+    clear_evolved_graph_visualization();
 
     ui->progressBar->show();
     ui->label_loading->show();
@@ -2669,6 +2743,7 @@ void MainWindow::generateGraphPrunedLeaves()
         delete[](current_longest_cycle_vertices);
         current_longest_cycle_vertices = NULL;
     }
+    clear_evolved_graph_visualization();
 
     ui->progressBar->show();
     ui->label_loading->show();
@@ -2698,6 +2773,8 @@ void MainWindow::generateLargestComponent()
         delete[](current_longest_cycle_vertices);
         current_longest_cycle_vertices = NULL;
     }
+    clear_evolved_graph_visualization();
+
     ui->progressBar->show();
     ui->label_loading->show();
     ui->progressBar->repaint();
@@ -2736,6 +2813,7 @@ void MainWindow::generateGeneralizedDominatingSetGraph()
         delete[](current_longest_cycle_vertices);
         current_longest_cycle_vertices = NULL;
     }
+    clear_evolved_graph_visualization();
 
     QFuture<void> future = QtConcurrent::run(this, &MainWindow::generateGeneralizedDominatingSetGraphProcessing);
     this->FutureWatcherGraphLoading.setFuture(future);
@@ -2781,6 +2859,7 @@ void MainWindow::generateGraphWS()
         delete[](current_longest_cycle_vertices);
         current_longest_cycle_vertices = NULL;
     }
+    clear_evolved_graph_visualization();
 
     QFuture<void> future = QtConcurrent::run(this, &MainWindow::generateGraphWSProcessing);
     this->FutureWatcherGraphLoading.setFuture(future);
@@ -2826,6 +2905,7 @@ void MainWindow::generateGraphGrid()
         delete[](current_longest_cycle_vertices);
         current_longest_cycle_vertices = NULL;
     }
+    clear_evolved_graph_visualization();
 
     QFuture<void> future = QtConcurrent::run(this, &MainWindow::generateGraphGridProcessing);
     this->FutureWatcherGraphLoading.setFuture(future);
@@ -3319,6 +3399,8 @@ void MainWindow::minimizeCrossings()
         return;
     }
 
+    ui->actionCrossings_based->setEnabled(true);
+
     // ToDo: check whether tidying up should be done here
     EvoVisForm *evoVisForm = new EvoVisForm();
     evoVisForm->setAttribute(Qt::WA_DeleteOnClose);
@@ -3400,6 +3482,14 @@ MainWindow::~MainWindow()
     if (NULL != myy)
     {
         delete[](myy);
+    }
+    if (NULL != CommonSettings::myx)
+    {
+        delete[](CommonSettings::myx);
+    }
+    if (NULL != CommonSettings::myy)
+    {
+        delete[](CommonSettings::myy);
     }
 
     delete workerThreadIGRLSCliqueCovering;

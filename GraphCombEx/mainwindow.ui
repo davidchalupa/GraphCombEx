@@ -681,6 +681,7 @@ p, li { white-space: pre-wrap; }
      <addaction name="actionCircular"/>
      <addaction name="separator"/>
      <addaction name="actionCycle_based"/>
+     <addaction name="actionCrossings_based"/>
     </widget>
     <widget class="QMenu" name="menuVisualization_scale">
      <property name="title">
@@ -1172,6 +1173,17 @@ p, li { white-space: pre-wrap; }
   <action name="actionExport_dominating_set_LP_relaxation">
    <property name="text">
     <string>Dominating set (LP relaxation)</string>
+   </property>
+  </action>
+  <action name="actionCrossings_based">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Crossings-based</string>
    </property>
   </action>
  </widget>

@@ -34,10 +34,16 @@ public:
     static bool highlight_longest_cycle;
     static long long max_iter_stag_igcol;
     static long long max_iter_stag_igccp;
+    static bool show_evolved_graph_visualization;
+
+    static refer *myx;
+    static refer *myy;
 };
 
 void QuickSort(refer *array, int left, int right);
 int BinarySearch(refer *array, refer key, int left, int right);
 unsigned long long power(unsigned long long base, unsigned long long exponent);
+void set_evolved_graph_visualization(refer *myx, refer *myy, refer n);
+void clear_evolved_graph_visualization();
 
 #endif
