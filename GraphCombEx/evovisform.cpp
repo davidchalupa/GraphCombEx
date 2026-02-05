@@ -383,7 +383,7 @@ void EvoVisForm::clear_graph_visualization()
 
 void EvoVisForm::exportGraphVisualization()
 {
-    graphVisualizationExportFileName = QFileDialog::getSaveFileName(this,"Choose a file to save the visualization",QString::null,QString::null);
+    graphVisualizationExportFileName = QFileDialog::getSaveFileName(this,"Choose a file to save the visualization",QString::null,"PNG file (*.png);;BNP file (*.bmp);;JPG file (*.jpg)");
 
     if (NULL == G || NULL == graphVisualizationExportFileName || "" == graphVisualizationExportFileName)
     {
