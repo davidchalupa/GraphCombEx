@@ -129,6 +129,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionRandomized_local_search_and_Iterated_Greedy,SIGNAL(triggered(bool)),this,SLOT(computeIGRLSColoring()));
     connect(ui->actionIterated_greedy_and_randomized_local_search,SIGNAL(triggered(bool)),this,SLOT(computeIGRLSColoring()));
     connect(ui->actionGreedy_dominating_set,SIGNAL(triggered(bool)),this,SLOT(computeGreedyDominatingSet()));
+    connect(ui->actionDual_packing_lower_bound,SIGNAL(triggered(bool)),this,SLOT(computeDominatingSetDualPackingLowerBound()));
     connect(ui->actionDepth_first_search,SIGNAL(triggered(bool)),this,SLOT(computeLongestCycleDFS()));
     connect(ui->actionDepth_first_search_with_local_search,SIGNAL(triggered(bool)),this,SLOT(computeLongestCycleDFSLS()));
     connect(ui->actionShow_in_a_separate_window,SIGNAL(triggered(bool)),this,SLOT(showInSeparateWindow()));
@@ -148,6 +149,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&this->FutureWatcherMaxClique,SIGNAL(finished()),this,SLOT(finishMaxClique()));
     connect(&this->FutureWatcherCliqueCovering,SIGNAL(finished()),this,SLOT(finishCliqueCovering()));
     connect(&this->FutureWatcherDominatingSet,SIGNAL(finished()),this,SLOT(finishDominatingSet()));
+    connect(&this->FutureWatcherDominatingSetLowerBound,SIGNAL(finished()),this,SLOT(finishDominatingSet()));
     connect(&this->FutureWatcherLongestCycle,SIGNAL(finished()),this,SLOT(finishLongestCycle()));
 
     connect(workerThreadIGRLSCliqueCovering,SIGNAL(logMessageSignal(QString)),this,SLOT(logMessage(QString)));
@@ -2429,6 +2431,23 @@ void MainWindow::computeGreedyDominatingSetProcessing()
     delete(algorithm_greedydom_instance);
 }
 
+void MainWindow::computeDominatingSetDualPackingLowerBoundProcessing()
+{
+    algorithm *algorithm_greedydom_instance;
+    refer second_lower_bound;
+
+    algorithm_greedydom_instance = new algorithm_greedydom();
+
+    // applying a tighter lower bound for dominating set
+    second_lower_bound = algorithm_greedydom_instance->dom_lower_bound(G);
+    if (dominating_set_lower < second_lower_bound)
+    {
+        dominating_set_lower = second_lower_bound;
+    }
+
+    delete(algorithm_greedydom_instance);
+}
+
 void MainWindow::computeLongestCycleDFSProcessing()
 {
     refer run;
@@ -3290,6 +3309,22 @@ void MainWindow::computeGreedyDominatingSet()
 
     QFuture<void> future = QtConcurrent::run(this, &MainWindow::computeGreedyDominatingSetProcessing);
     this->FutureWatcherDominatingSet.setFuture(future);
+}
+
+void MainWindow::computeDominatingSetDualPackingLowerBound()
+{
+    if (NULL == G)
+    {
+        return;
+    }
+
+    ui->progressBar->show();
+    ui->label_loading->show();
+    ui->progressBar->repaint();
+    ui->label_loading->repaint();
+
+    QFuture<void> future = QtConcurrent::run(this, &MainWindow::computeDominatingSetDualPackingLowerBoundProcessing);
+    this->FutureWatcherDominatingSetLowerBound.setFuture(future);
 }
 
 void MainWindow::computeLongestCycleDFS()

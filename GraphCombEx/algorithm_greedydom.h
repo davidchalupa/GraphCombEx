@@ -14,6 +14,7 @@ public:
     algorithm_greedydom();
     ~algorithm_greedydom();
     refer greedydom(graph G, bool *result);
+    refer dom_lower_bound(graph G);
 };
 
 #endif // ALGORITHM_GREEDYDOM_H

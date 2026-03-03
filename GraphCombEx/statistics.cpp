@@ -166,6 +166,11 @@ refer statistics::girth(graph G)
     girth = G->n+1;
     for (v_central=0;v_central<G->n;v_central++)
     {
+        // if triangle was found, then we can just return 3
+        if (girth == 3)
+        {
+            break;
+        }
         for (v=0;v<G->n;v++)
         {
             distances[v] = 0;

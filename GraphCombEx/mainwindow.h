@@ -100,6 +100,7 @@ private:
     QFutureWatcher<void> FutureWatcherMaxClique;
     QFutureWatcher<void> FutureWatcherCliqueCovering;
     QFutureWatcher<void> FutureWatcherDominatingSet;
+    QFutureWatcher<void> FutureWatcherDominatingSetLowerBound;
     QFutureWatcher<void> FutureWatcherLongestCycle;
 
     int compute_statistics(graph G);
@@ -131,6 +132,7 @@ private:
     void computeGreedyIndependentSetProcessing();
     void computeGreedyCliqueProcessing();
     void computeGreedyDominatingSetProcessing();
+    void computeDominatingSetDualPackingLowerBoundProcessing();
     void computeLongestCycleDFSProcessing();
     void computeLongestCycleDFSLSProcessing();
 
@@ -192,6 +194,7 @@ public slots:
     void computeGreedyClique();
     void computeIGRLSCliqueCovering();
     void computeGreedyDominatingSet();
+    void computeDominatingSetDualPackingLowerBound();
     void computeIGRLSColoring();
     void computeLongestCycleDFS();
     void computeLongestCycleDFSLS();

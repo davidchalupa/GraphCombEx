@@ -16,6 +16,7 @@ public:
     virtual refer greedy_clique(graph, refer *) { return 0; }
     virtual bool iggcc_ccp(graph, refer *, refer *, refer *, refer) { return 0; }
     virtual refer greedydom(graph, bool *) { return 0; }
+    virtual refer dom_lower_bound(graph G) { return 0; }
     virtual bool igcol(graph, bool, refer *, refer *, refer *, refer) { return 0; }
 };
 

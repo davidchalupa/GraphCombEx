@@ -773,6 +773,7 @@ p, li { white-space: pre-wrap; }
       <string>Dominating set</string>
      </property>
      <addaction name="actionGreedy_dominating_set"/>
+     <addaction name="actionDual_packing_lower_bound"/>
     </widget>
     <widget class="QMenu" name="menuLongest_cycle">
      <property name="title">
@@ -1184,6 +1185,11 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Crossings-based</string>
+   </property>
+  </action>
+  <action name="actionDual_packing_lower_bound">
+   <property name="text">
+    <string>Dual packing lower bound</string>
    </property>
   </action>
  </widget>
