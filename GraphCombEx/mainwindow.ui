@@ -854,7 +854,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Centrality-based</string>
+    <string>Radial</string>
    </property>
   </action>
   <action name="action1x">
