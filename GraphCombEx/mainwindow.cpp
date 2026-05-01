@@ -1488,11 +1488,12 @@ void MainWindow::update_graph_visualization()
     for (v=0;v<G->n;v++)
     {
         painter->setPen(QColor(50,50,50,255));
-        if (NULL != get_vertex_label(v))
+        if (is_vertex_labeled(v))
         {
             if (G->n < 1000)
             {
-                painter->drawText(QPoint(myx[v] - CommonSettings::vertex_radius * 2,myy[v] - CommonSettings::vertex_radius * 2),get_vertex_label(v));
+                printf("%s\n", get_vertex_label(v).c_str());
+                painter->drawText(QPoint(myx[v] - CommonSettings::vertex_radius * 2,myy[v] - CommonSettings::vertex_radius * 2),QString::fromStdString(get_vertex_label(v)));
             }
         }
         else

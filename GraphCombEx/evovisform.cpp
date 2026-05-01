@@ -229,10 +229,10 @@ void EvoVisForm::update_graph_visualization()
     {
         for (v=0;v<G->n;v++)
         {
-            if (NULL != get_vertex_label(v))
+            if (is_vertex_labeled(v))
             {
                 painter->setPen(QColor(generator.random(64,192),0,0,255));
-                painter->drawText(QPoint(myx[v],myy[v]),get_vertex_label(v));
+                painter->drawText(QPoint(myx[v],myy[v]),QString::fromStdString(get_vertex_label(v)));
             }
             else
             {
@@ -301,10 +301,10 @@ void EvoVisForm::updateGraphVisualizationOptimized(refer *myx, refer *myy)
     {
         for (v=0;v<G->n;v++)
         {
-            if (NULL != get_vertex_label(v))
+            if (is_vertex_labeled(v))
             {
                 painter->setPen(QColor(generator.random(32,192),0,0,255));
-                painter->drawText(QPoint(myx[v],myy[v]),get_vertex_label(v));
+                painter->drawText(QPoint(myx[v],myy[v]),QString::fromStdString(get_vertex_label(v)));
             }
             else
             {

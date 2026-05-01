@@ -1,9 +1,9 @@
 #ifndef GRAPHS_H
 #define GRAPHS_H
 #include <stdio.h>
+#include <string>
 #include "common.h"
 
-#define MAX_VERTICES 5000050
 #define MAX_VERTICES_ADJACENCY 3000
 #define MAX_EDGES_ADJACENCY 3000000
 #define MAX_EDGES_DRAWING 3000000
@@ -20,7 +20,7 @@ typedef struct GRAPH_DATA
     refer n;
     unsigned long m;
     double density;
-    vertex V[MAX_VERTICES];
+    vertex *V;
 } graph_data;
 typedef graph_data *graph;
 
@@ -39,6 +39,7 @@ void generate_complementary_graph(graph G);
 void generate_graph_pruned_leaves(graph G);
 void generate_largest_component(graph G);
 void generate_shortcut_graph(graph G, refer k);
-char *get_vertex_label(refer vertex);
+std::string get_vertex_label(refer vertex);
+bool is_vertex_labeled(refer vertex);
 
 #endif // GRAPHS_H

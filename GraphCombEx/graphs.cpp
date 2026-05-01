@@ -3,6 +3,8 @@
 #include <string.h>
 #include <time.h>
 #include <math.h>
+#include <vector>
+#include <string>
 #include "graphs.h"
 #include "random_generator.h"
 
@@ -15,13 +17,11 @@ graph G;
 refer *E1;
 refer *E2;
 // auxiliary array for the degrees
-refer VEc[MAX_VERTICES];
+refer *VEc;
 random_generator generator;
-unsigned long roulette[MAX_VERTICES];
-unsigned long roulette_sum;
 
 bool is_labeled;
-char vertex_labels[MAX_VERTICES][MAX_VERTEX_LABEL+1];
+std::vector<std::string> vertex_labels_str;
 
 graph get_graph()
 {
@@ -84,6 +84,15 @@ int input_graph(FILE *source, const char *file_format)
         E1 = new refer[2*G->m+1];
         E2 = new refer[2*G->m+1];
 
+        // VEc allocated individually, freed together for GML and COL
+        VEc = new refer[G->n+1];
+
+        // initialize VEc to zeros
+        for (i=0;i<G->n;i++)
+        {
+            VEc[i] = 0;
+        }
+
         // vertices and edges
         while ((fscanf(source,"%s ",&line)) != EOF)
         {
@@ -119,6 +128,7 @@ int input_graph(FILE *source, const char *file_format)
     {
         // comments
         is_labeled = false;
+        char vertex_label[MAX_VERTEX_LABEL+1];
         while ((ch = fgetc(source)) == 'c')
         {
             if ((ch = fgetc(source)) != '\n')
@@ -126,12 +136,16 @@ int input_graph(FILE *source, const char *file_format)
                 ungetc(ch, source);
                 if (EOF != fscanf(source, "%u", &v) && (is_labeled || (! is_labeled && 1 == v)))
                 {
-                    fgets(&vertex_labels[v-1][0], MAX_VERTEX_LABEL, source);
+                    fgets(&vertex_label[0], MAX_VERTEX_LABEL, source);
                     is_labeled = true;
-                    if ('\n' != vertex_labels[v-1][strlen(vertex_labels[v-1])-1])
+                    if ('\n' != vertex_label[strlen(vertex_label)-1])
                     {
                         while ((ch = fgetc(source)) != '\n');
                     }
+                    if (vertex_labels_str.size() < v) {
+                        vertex_labels_str.resize(v);
+                    }
+                    vertex_labels_str[v-1] = vertex_label;
                 }
                 else
                 {
@@ -164,6 +178,15 @@ int input_graph(FILE *source, const char *file_format)
         E1 = new refer[2*G->m+1];
         E2 = new refer[2*G->m+1];
 
+        // VEc allocated individually, freed together for GML and COL
+        VEc = new refer[G->n+1];
+
+        // initialize VEc to zeros
+        for (i=0;i<G->n;i++)
+        {
+            VEc[i] = 0;
+        }
+
         // separator line
         fgetc(source);
 
@@ -195,6 +218,7 @@ int input_graph(FILE *source, const char *file_format)
     }
 
     // allocation based on the computed degrees
+    G->V = (vertex *) malloc (G->n*sizeof(vertex));
     for (i=0;i<G->n;i++)
     {
         G->V[i].edgecount = 0;
@@ -257,6 +281,8 @@ int input_graph(FILE *source, const char *file_format)
     delete[](E1);
     delete[](E2);
 
+    delete[](VEc);
+
     return 0;
 }
 
@@ -268,7 +294,7 @@ int output_graph(FILE *target)
     {
         for (v=0;v<G->n;v++)
         {
-            fprintf(target, "c %u %s", v+1, vertex_labels[v]);
+            fprintf(target, "c %u %s", v+1, vertex_labels_str[v].c_str());
         }
     }
     fprintf(target, "p edge %u %lu\n", G->n, G->m);
@@ -296,6 +322,7 @@ void free_graph()
         G->V[i].edgecount = 0;
         free(G->V[i].sibl);
     }
+    free(G->V);
 
     free(G);
     G = NULL;
@@ -335,10 +362,15 @@ void generate_graph_BA_model(unsigned long w, unsigned long n_max)
     unsigned long i;
     unsigned long j,q,r;
 
-    // alokujeme priestor pre graf
     G = (graph) malloc (sizeof(graph_data));
 
-    // inicializujeme zakladny graf
+    G->V = (vertex *) malloc (n_max*sizeof(vertex));
+
+    // initialize edgecount - critical
+    for (i=0;i<n_max;i++) {
+        G->V[i].edgecount = 0;
+    }
+
     G->n = w;
     G->m = w-1;
     if (0 == w)
@@ -383,6 +415,10 @@ void generate_graph_BA_model(unsigned long w, unsigned long n_max)
     }
 
     refer n = G->n;
+    unsigned long *roulette;
+    unsigned long roulette_sum;
+    roulette = new unsigned long[n_max+1];
+
     for (i=n;i<n_max;i++)
     {
         // roulette wheel preparation
@@ -410,7 +446,7 @@ void generate_graph_BA_model(unsigned long w, unsigned long n_max)
             G->V[i].sibl[j] = q;
             if (0 == G->V[q].edgecount % MAX_BA_DEGREE)
             {
-                G->V[q].sibl = (refer *) realloc (G->V[q].sibl, (G->V[q].edgecount+1)*MAX_BA_DEGREE*sizeof(refer));
+                G->V[q].sibl = (refer *) realloc (G->V[q].sibl, (G->V[q].edgecount + MAX_BA_DEGREE) * sizeof(refer));
             }
             G->V[q].sibl[G->V[q].edgecount] = i;
             G->V[q].edgecount++;
@@ -422,16 +458,9 @@ void generate_graph_BA_model(unsigned long w, unsigned long n_max)
         QuickSort(G->V[i].sibl,0,G->V[i].edgecount-1);
     }
 
-    /*for (i=0;i<G->n;i++)
-    {
-        QuickSort(G->V[i].sibl,0,G->V[i].edgecount-1);
-        if (G->V[i].edgecount > MAX_BA_DEGREE)
-        {
-            // ToDo: overflow handling!
-        }
-    }*/
-
     G->density = ((double)(G->m))/((double)(G->n*(G->n-1)/2));
+
+    delete[](roulette);
 }
 
 void generate_graph_UDG(unsigned long n_max, unsigned long range, unsigned long grid)
@@ -446,6 +475,8 @@ void generate_graph_UDG(unsigned long n_max, unsigned long range, unsigned long 
 
     // alokujeme priestor pre graf
     G = (graph) malloc (sizeof(graph_data));
+
+    G->V = (vertex *) malloc (n_max*sizeof(vertex));
 
     // points generation
     for (i=0;i<n_max;i++)
@@ -521,6 +552,8 @@ void generate_graph_WS_model(refer n_max, refer k_half, double beta)
     srand((unsigned long long) time(NULL));
 
     G = (graph) malloc (sizeof(graph_data));
+
+    G->V = (vertex *) malloc (n_max*sizeof(vertex));
 
     // we start only with the upper half of the connections (so that the rewiring is easier)
     G->n = n_max;
@@ -636,6 +669,8 @@ void generate_graph_grid(refer rows, refer columns, double beta)
     srand((unsigned long long) time(NULL));
 
     G = (graph) malloc (sizeof(graph_data));
+
+    G->V = (vertex *) malloc ((rows*columns)*sizeof(vertex));
 
     // we start only with the upper half of the connections (so that the rewiring is easier)
     G->n = rows*columns;
@@ -761,6 +796,8 @@ void generate_graph_complete_tree(refer branching_factor, refer depth)
         G->n += power(branching_factor, i);
     }
     G->m = G->n-1;
+
+    G->V = (vertex *) malloc (G->n*sizeof(vertex));
 
     parents = new refer[G->n+1];
 
@@ -895,7 +932,7 @@ void generate_graph_pruned_leaves(graph G)
                         }
                     }
                     // new label of the vertex
-                    strcpy(vertex_labels[v], vertex_labels[G->n-1]);
+                    vertex_labels_str[v] = vertex_labels_str[G->n-1];
                 }
                 // deleting the vertex
                 free(G->V[v].sibl);
@@ -995,7 +1032,7 @@ void generate_largest_component(graph G)
                     }
                 }
                 // new label of the vertex
-                strcpy(vertex_labels[v], vertex_labels[G->n-1]);
+                vertex_labels_str[v] = vertex_labels_str[G->n-1];
             }
             // deleting the vertex
             free(G->V[v].sibl);
@@ -1218,14 +1255,11 @@ void generate_shortcut_graph(graph G, refer k)
     delete[](new_vertex_degrees);
 }*/
 
-char *get_vertex_label(refer vertex)
+std::string get_vertex_label(refer vertex)
 {
-    if (is_labeled)
-    {
-        return vertex_labels[vertex];
-    }
-    else
-    {
-        return NULL;
-    }
+    return vertex_labels_str[vertex];
+}
+
+bool is_vertex_labeled(refer vertex) {
+    return is_labeled;
 }
